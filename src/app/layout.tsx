@@ -1,4 +1,5 @@
 // src/app/layout.tsx
+import "./globals.css";
 import type { Metadata } from "next";
 
 const SITE_URL = "https://alexfer33.pw";
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
       "Smart contracts, tokens, AI agents, NFT platforms, dashboards, automations and full-stack apps. Premium UI, clean engineering, production delivery.",
     images: [
       {
-        url: "/assets/og.webp", // crea questo file (vedi sotto)
+        url: "/assets/og.webp",
         width: 1200,
         height: 630,
         alt: "al33xf — Web3 & AI Full-Stack Builder",
@@ -70,7 +71,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-black text-white antialiased">{children}</body>
     </html>
   );
 }
