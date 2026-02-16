@@ -17,6 +17,44 @@ export default function HomePage() {
 
   return (
     <main className="bg-black text-white antialiased min-h-screen overflow-x-hidden">
+      <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "al33xf",
+      url: "https://alexfer33.pw",
+      image: "https://alexfer33.pw/assets/al33xf.webp",
+      sameAs: [
+        "https://x.com/al33xf",
+        "https://t.me/al33xf",
+        "https://github.com/al3xf3r",
+      ],
+      jobTitle: "Web3 & AI Full-Stack Builder",
+      worksFor: { "@type": "Organization", name: "Independent" },
+      knowsAbout: [
+        "Solidity",
+        "EVM",
+        "Smart Contracts",
+        "Token Engineering",
+        "AI Agents",
+        "NFT Platforms",
+        "Next.js",
+        "React",
+        "Indexing",
+        "Bots",
+      ],
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "business",
+          email: "al33xf@gmail.com",
+        },
+      ],
+    }),
+  }}
+/>
       {/* Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(46,108,255,0.20),transparent_55%),radial-gradient(ellipse_at_bottom,rgba(255,106,0,0.14),transparent_55%)]" />
