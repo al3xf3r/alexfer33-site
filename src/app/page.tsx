@@ -10,6 +10,8 @@ const LINKS = {
   gh: "https://github.com/al3xf3r",
 };
 
+const SITE_URL = "https://al33xf.xyz";
+
 export default function HomePage() {
   const year = useMemo(() => new Date().getFullYear(), []);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,44 +19,48 @@ export default function HomePage() {
 
   return (
     <main className="bg-black text-white antialiased min-h-screen overflow-x-hidden">
+      {/* JSON-LD (SEO) */}
       <script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Person",
-      name: "al33xf",
-      url: "https://alexfer33.pw",
-      image: "https://alexfer33.pw/assets/al33xf.webp",
-      sameAs: [
-        "https://x.com/al33xf",
-        "https://t.me/al33xf",
-        "https://github.com/al3xf3r",
-      ],
-      jobTitle: "Web3 & AI Full-Stack Builder",
-      worksFor: { "@type": "Organization", name: "Independent" },
-      knowsAbout: [
-        "Solidity",
-        "EVM",
-        "Smart Contracts",
-        "Token Engineering",
-        "AI Agents",
-        "NFT Platforms",
-        "Next.js",
-        "React",
-        "Indexing",
-        "Bots",
-      ],
-      contactPoint: [
-        {
-          "@type": "ContactPoint",
-          contactType: "business",
-          email: "al33xf@gmail.com",
-        },
-      ],
-    }),
-  }}
-/>
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "al33xf",
+            url: SITE_URL,
+            image: `${SITE_URL}/assets/al33xf.webp`,
+            sameAs: [LINKS.x, LINKS.tg, LINKS.gh],
+            jobTitle: "Web3, AI & Web Full-Stack Builder",
+            worksFor: { "@type": "Organization", name: "Independent" },
+            knowsAbout: [
+              "Web Development",
+              "Websites",
+              "Landing Pages",
+              "SEO",
+              "Performance Optimization",
+              "Next.js",
+              "React",
+              "TypeScript",
+              "Solidity",
+              "EVM",
+              "Smart Contracts",
+              "Token Engineering",
+              "AI Agents",
+              "NFT Platforms",
+              "Indexing",
+              "Bots",
+            ],
+            contactPoint: [
+              {
+                "@type": "ContactPoint",
+                contactType: "business",
+                email: "al33xf@gmail.com",
+              },
+            ],
+          }),
+        }}
+      />
+
       {/* Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(46,108,255,0.20),transparent_55%),radial-gradient(ellipse_at_bottom,rgba(255,106,0,0.14),transparent_55%)]" />
@@ -85,9 +91,7 @@ export default function HomePage() {
                 <span className="text-[#ff6a00]">33</span>
                 <span className="text-white">xf</span>
               </div>
-              <div className="text-[11px] text-white/55 -mt-0.5">
-                Web3 • AI • Full-stack
-              </div>
+              <div className="text-[11px] text-white/55 -mt-0.5">Web3 • AI • Web Dev</div>
             </div>
           </a>
 
@@ -196,15 +200,15 @@ export default function HomePage() {
               </div>
 
               <h1 className="mt-4 text-4xl md:text-5xl font-extrabold leading-tight md:leading-[1.12] pb-1 tracking-tight">
-                I build Web3 & AI products
+                I build Web3, AI & websites
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#4f8fff] via-white to-[#ff8a2e]">
                   that ship to production.
                 </span>
               </h1>
 
               <p className="mt-4 text-white/70 text-base md:text-lg leading-relaxed">
-                Smart contracts, tokens, AI agents, NFT platforms, dashboards, automations and full-stack apps.
-                Institutional UI, measurable systems, and clean engineering.
+                Websites & landing pages, smart contracts, tokens, AI agents, NFT platforms, dashboards, automations and
+                full-stack apps. Premium UI, measurable systems, and clean engineering.
               </p>
 
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
@@ -231,7 +235,8 @@ export default function HomePage() {
               </div>
 
               <div className="mt-6 text-xs text-white/45">
-                Available for: MVP → production, audits prep, protocol UI, integrations, automations, and scaling.
+                Available for: MVP → production, websites/landing pages, audits prep, protocol UI, integrations,
+                automations, and scaling.
               </div>
             </div>
 
@@ -259,9 +264,9 @@ export default function HomePage() {
                       />
                       <div>
                         <div className="text-sm text-white/70"></div>
-                        <div className="text-xl font-extrabold leading-tight">Web3 & AI Builder</div>
+                        <div className="text-xl font-extrabold leading-tight">Web3, AI & Web Builder</div>
                         <div className="text-xs text-white/55 mt-0.5">
-                          Solidity • EVM • Solana • React • Next.js • Bots • Infra
+                          Websites • Solidity • EVM • Solana • React • Next.js • Bots • Infra
                         </div>
                       </div>
                     </div>
@@ -300,10 +305,7 @@ export default function HomePage() {
                         </div>
                       </a>
 
-                      <a
-                        href={LINKS.mail}
-                        className="rounded-2xl border border-white/10 bg-black/30 p-4 hover:bg-white/5 transition"
-                      >
+                      <a href={LINKS.mail} className="rounded-2xl border border-white/10 bg-black/30 p-4 hover:bg-white/5 transition">
                         <div className="flex items-center gap-3">
                           <IconMail />
                           <div className="min-w-0">
@@ -346,9 +348,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="mt-6 text-xs text-white/45">
-                
-              </div>
+              <div className="mt-6 text-xs text-white/45"></div>
             </div>
           </div>
         </div>
@@ -360,12 +360,10 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div>
               <div className="text-sm text-white/60">What I build</div>
-              <h2 className="mt-1 text-3xl md:text-4xl font-extrabold tracking-tight">
-                Full-stack digital products
-              </h2>
+              <h2 className="mt-1 text-3xl md:text-4xl font-extrabold tracking-tight">Full-stack digital products</h2>
               <p className="mt-3 text-white/70 max-w-2xl leading-relaxed">
                 I can ship on request: from a single smart contract to full platforms with dashboards, auth, indexing,
-                payments, automations, and monitoring.
+                payments, automations, monitoring — and modern websites/landing pages built for conversion.
               </p>
             </div>
 
@@ -387,7 +385,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mt-8 grid md:grid-cols-3 gap-4">
+          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 badge: "AI",
@@ -406,6 +404,12 @@ export default function HomePage() {
                 title: "NFT platforms & dashboards",
                 desc: "Minting, marketplaces, gating, allowlists, admin panels, real-time stats, indexing, and UX polish.",
                 tag: "Premium UI/UX",
+              },
+              {
+                badge: "Web",
+                title: "Websites & landing pages",
+                desc: "Modern websites built for conversion: responsive design, fast loading, SEO-ready structure, and clean content hierarchy.",
+                tag: "SEO + Performance + UX",
               },
             ].map((c) => (
               <div key={c.title} className="rounded-2xl border border-white/10 bg-black/30 p-6">
@@ -449,6 +453,11 @@ export default function HomePage() {
               d: "Next.js, React, Tailwind, premium UI, mobile-first, performance and clarity.",
             },
             {
+              k: "Web",
+              t: "Websites, SEO & performance",
+              d: "Landing pages and websites with clean structure, Core Web Vitals, on-page SEO, analytics and production deploy.",
+            },
+            {
               k: "AI",
               t: "Agents & automations",
               d: "Bots, triggers, background jobs, agent loops, and production monitoring.",
@@ -458,11 +467,7 @@ export default function HomePage() {
               t: "Production ops",
               d: "Vercel/Netlify, VPS, Nginx, PM2, logs, alerts, uptime, and analytics.",
             },
-            {
-              k: "Delivery",
-              t: "Dev workflow",
-              d: "GitHub, CI mindset, clean commits, reproducible builds, and handoff docs.",
-            },
+          
           ].map((c) => (
             <div key={c.t} className="rounded-2xl border border-white/10 bg-black/30 p-6">
               <div className="text-xs text-white/60">{c.k}</div>
@@ -497,7 +502,7 @@ export default function HomePage() {
           </div>
 
           <div className="mt-6 text-xs text-white/45">
-            Optional: audits preparation, threat modeling, runbooks, and maintenance plans.
+            Optional: audits preparation, threat modeling, runbooks, maintenance plans, and website optimization.
           </div>
         </div>
       </section>
@@ -532,9 +537,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div>
               <div className="text-sm text-white/60">Resources</div>
-              <h2 className="mt-1 text-3xl md:text-4xl font-extrabold tracking-tight">
-                Links & profiles
-              </h2>
+              <h2 className="mt-1 text-3xl md:text-4xl font-extrabold tracking-tight">Links & profiles</h2>
               <p className="mt-3 text-white/70 max-w-2xl leading-relaxed">
                 The fastest way to validate: check code, socials, and contact directly.
               </p>
@@ -582,26 +585,22 @@ export default function HomePage() {
         <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-10">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div>
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
-                Contact
-              </h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Contact</h2>
               <p className="mt-2 text-white/70 max-w-2xl">
-                Tell me what you want to build. I’ll propose the fastest path to production (stack + scope + deliverables).
+                Tell me what you want to build (website, app, protocol, AI agent). I’ll propose the fastest path to production
+                (stack + scope + deliverables).
               </p>
             </div>
           </div>
 
           <div className="mt-8 grid md:grid-cols-2 gap-4">
-            <a
-              href={LINKS.mail}
-              className="rounded-2xl border border-white/10 bg-black/30 p-6 hover:bg-white/5 transition"
-            >
+            <a href={LINKS.mail} className="rounded-2xl border border-white/10 bg-black/30 p-6 hover:bg-white/5 transition">
               <div className="flex items-center gap-3">
                 <IconMail />
                 <div className="min-w-0">
                   <div className="text-sm text-white/60">Email</div>
                   <div className="font-semibold truncate">al33xf@gmail.com</div>
-                  <div className="text-xs text-white/45 mt-1">Best for project scope and requirements.</div>
+                  <div className="text-xs text-white/45 mt-1">Best for scope, requirements, and quotes.</div>
                 </div>
               </div>
             </a>
@@ -651,9 +650,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mt-4 text-xs text-white/45">
-            Serious build mindset. Clear expectations. Clean delivery.
-          </div>
+          <div className="mt-4 text-xs text-white/45">Serious build mindset. Clear expectations. Clean delivery.</div>
         </div>
       </section>
 
@@ -671,12 +668,24 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-wrap items-center gap-4 text-sm text-white/60">
-              <a href="#build" className="hover:text-white">Build</a>
-              <a href="#capabilities" className="hover:text-white">Capabilities</a>
-              <a href="#process" className="hover:text-white">Process</a>
-              <a href="#contacts" className="hover:text-white">Contacts</a>
-              <a href={LINKS.x} target="_blank" rel="noreferrer" className="hover:text-white">X</a>
-              <a href={LINKS.gh} target="_blank" rel="noreferrer" className="hover:text-white">GitHub</a>
+              <a href="#build" className="hover:text-white">
+                Build
+              </a>
+              <a href="#capabilities" className="hover:text-white">
+                Capabilities
+              </a>
+              <a href="#process" className="hover:text-white">
+                Process
+              </a>
+              <a href="#contacts" className="hover:text-white">
+                Contacts
+              </a>
+              <a href={LINKS.x} target="_blank" rel="noreferrer" className="hover:text-white">
+                X
+              </a>
+              <a href={LINKS.gh} target="_blank" rel="noreferrer" className="hover:text-white">
+                GitHub
+              </a>
             </div>
           </div>
         </div>
