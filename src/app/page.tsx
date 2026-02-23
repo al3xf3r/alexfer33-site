@@ -531,54 +531,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Resources */}
-      <section id="resources" className="mx-auto max-w-6xl px-4 pb-14">
-        <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-8">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-            <div>
-              <div className="text-sm text-white/60">Resources</div>
-              <h2 className="mt-1 text-3xl md:text-4xl font-extrabold tracking-tight">Links & profiles</h2>
-              <p className="mt-3 text-white/70 max-w-2xl leading-relaxed">
-                The fastest way to validate: check code, socials, and contact directly.
-              </p>
-            </div>
-
-            <div className="flex gap-3">
-              <a
-                href={LINKS.x}
-                target="_blank"
-                rel="noreferrer"
-                className="px-5 py-3 rounded-2xl border border-white/10 bg-black/30 hover:bg-white/5 text-white font-semibold text-center"
-              >
-                X
-              </a>
-              <a
-                href={LINKS.tg}
-                target="_blank"
-                rel="noreferrer"
-                className="px-5 py-3 rounded-2xl border border-white/10 bg-black/30 hover:bg-white/5 text-white font-semibold text-center"
-              >
-                Telegram
-              </a>
-              <a
-                href={LINKS.gh}
-                target="_blank"
-                rel="noreferrer"
-                className="px-5 py-3 rounded-2xl bg-[#ff6a00] hover:bg-[#ff8a2e] text-black font-semibold shadow-[0_0_40px_rgba(255,106,0,0.18)] text-center"
-              >
-                GitHub
-              </a>
-            </div>
-          </div>
-
-          <div className="mt-8 grid md:grid-cols-4 gap-4">
-            <ResourceCard title="X" value="x.com/al33xf" href={LINKS.x} />
-            <ResourceCard title="Telegram" value="t.me/al33xf" href={LINKS.tg} />
-            <ResourceCard title="Email" value="al33xf@gmail.com" href={LINKS.mail} />
-            <ResourceCard title="GitHub" value="github.com/al3xf3r" href={LINKS.gh} />
-          </div>
-        </div>
-      </section>
+      
 
       {/* Contacts */}
       <section id="contacts" className="mx-auto max-w-6xl px-4 pb-16">
