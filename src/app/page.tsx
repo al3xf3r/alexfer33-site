@@ -109,9 +109,6 @@ export default function HomePage() {
             <a href="#principles" className="hover:text-white">
               Principles
             </a>
-            <a href="#resources" className="hover:text-white">
-              Resources
-            </a>
             <a href="#contacts" className="hover:text-white">
               Contacts
             </a>
@@ -163,7 +160,6 @@ export default function HomePage() {
                     ["Capabilities", "#capabilities"],
                     ["Process", "#process"],
                     ["Principles", "#principles"],
-                    ["Resources", "#resources"],
                     ["Contacts", "#contacts"],
                     ["GitHub", LINKS.gh],
                     ["X", LINKS.x],
