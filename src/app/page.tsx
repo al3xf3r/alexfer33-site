@@ -2,6 +2,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import LanguageToggle from "@/components/LanguageToggle";
 
 const LINKS = {
   x: "https://x.com/al33xf",
@@ -117,6 +118,7 @@ export default function HomePage() {
           {/* CTA + mobile */}
           <div className="flex items-center gap-2 relative">
             <div className="hidden sm:flex items-center gap-2">
+              <LanguageToggle />
               <a
                 href={LINKS.gh}
                 target="_blank"
@@ -155,16 +157,22 @@ export default function HomePage() {
             {menuOpen && (
               <div className="md:hidden absolute right-0 top-12 w-72 rounded-2xl border border-white/10 bg-black/90 backdrop-blur-xl shadow-[0_0_40px_rgba(46,108,255,0.18)] overflow-hidden">
                 <div className="p-2">
+                  <div className="px-3 py-2">
+                    <LanguageToggle />
+                  </div>
+
                   {[
-                    ["What I build", "#build"],
-                    ["Capabilities", "#capabilities"],
-                    ["Process", "#process"],
-                    ["Principles", "#principles"],
-                    ["Contacts", "#contacts"],
-                    ["GitHub", LINKS.gh],
-                    ["X", LINKS.x],
-                    ["Telegram", LINKS.tg],
-                  ].map(([label, href]) => (
+  
+  ["What I build", "#build"],
+  ["Capabilities", "#capabilities"],
+  ["Process", "#process"],
+  ["Principles", "#principles"],
+  ["Resources", "#resources"],
+  ["Contacts", "#contacts"],
+  ["GitHub", LINKS.gh],
+  ["X", LINKS.x],
+  ["Telegram", LINKS.tg],
+].map(([label, href]) => (
                     <a
                       key={`${label}-${href}`}
                       href={href}

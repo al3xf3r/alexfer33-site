@@ -2,6 +2,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
+import LanguageToggle from "@/components/LanguageToggle";
 
 const LINKS = {
   x: "https://x.com/al33xf",
@@ -15,6 +17,11 @@ const SITE_URL = "https://al33xf.xyz";
 export default function HomePage() {
   const year = useMemo(() => new Date().getFullYear(), []);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+const isItalian = pathname === "/it";
+const langHref = isItalian ? "/" : "/it";
+const langLabel = isItalian ? "EN" : "IT";
+const langText = isItalian ? "English" : "Italiano";
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -120,6 +127,7 @@ export default function HomePage() {
           {/* CTA + mobile */}
           <div className="flex items-center gap-2 relative">
             <div className="hidden sm:flex items-center gap-2">
+                <LanguageToggle />
               <a
                 href={LINKS.gh}
                 target="_blank"
@@ -156,19 +164,23 @@ export default function HomePage() {
 
             {/* Mobile dropdown */}
             {menuOpen && (
-              <div className="md:hidden absolute right-0 top-12 w-72 rounded-2xl border border-white/10 bg-black/90 backdrop-blur-xl shadow-[0_0_40px_rgba(46,108,255,0.18)] overflow-hidden">
+              <div className="md:hidden absolute right-0 top-12 w-64 max-h-[70vh] overflow-y-auto rounded-2xl border border-white/10 bg-black/95 backdrop-blur-xl shadow-[0_0_40px_rgba(46,108,255,0.18)] overflow-hidden">
                 <div className="p-2">
+                     <div className="px-3 py-2">
+                                        <LanguageToggle />
+                                      </div>
                   {[
-                    ["Cosa realizzo", "#build"],
-                    ["Competenze", "#capabilities"],
-                    ["Processo", "#process"],
-                    ["Principi", "#principles"],
-                    ["Risorse", "#resources"],
-                    ["Contatti", "#contacts"],
-                    ["GitHub", LINKS.gh],
-                    ["X", LINKS.x],
-                    ["Telegram", LINKS.tg],
-                  ].map(([label, href]) => (
+  
+  [isItalian ? "Cosa realizzo" : "What I build", "#build"],
+  [isItalian ? "Competenze" : "Capabilities", "#capabilities"],
+  [isItalian ? "Processo" : "Process", "#process"],
+  [isItalian ? "Principi" : "Principles", "#principles"],
+  [isItalian ? "Risorse" : "Resources", "#resources"],
+  [isItalian ? "Contatti" : "Contacts", "#contacts"],
+  ["GitHub", LINKS.gh],
+  ["X", LINKS.x],
+  ["Telegram", LINKS.tg],
+].map(([label, href]) => (
                     <a
                       key={`${label}-${href}`}
                       href={href}
