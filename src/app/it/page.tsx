@@ -4,6 +4,7 @@
 import { useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import LanguageToggle from "@/components/LanguageToggle";
+import ProjectsShowcase from "@/components/ProjectsShowcase";
 
 const LINKS = {
   x: "https://x.com/al33xf",
@@ -107,6 +108,9 @@ const langText = isItalian ? "English" : "Italiano";
             <a href="#build" className="hover:text-white">
               Cosa realizzo
             </a>
+            <a href="#projects" className="hover:text-white">
+              Progetti
+            </a>
             <a href="#capabilities" className="hover:text-white">
               Competenze
             </a>
@@ -172,6 +176,7 @@ const langText = isItalian ? "English" : "Italiano";
                   {[
   
   [isItalian ? "Cosa realizzo" : "What I build", "#build"],
+  [isItalian ? "Progetti" : "Work", "#projects"],
   [isItalian ? "Competenze" : "Capabilities", "#capabilities"],
   [isItalian ? "Processo" : "Process", "#process"],
   [isItalian ? "Principi" : "Principles", "#principles"],
@@ -439,6 +444,9 @@ const langText = isItalian ? "English" : "Italiano";
         </div>
       </section>
 
+
+      <ProjectsShowcase locale="it"/>
+
       {/* Capabilities */}
       <section id="capabilities" className="mx-auto max-w-6xl px-4 py-12">
         <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Competenze</h2>
@@ -680,6 +688,9 @@ const langText = isItalian ? "English" : "Italiano";
             <div className="flex flex-wrap items-center gap-4 text-sm text-white/60">
               <a href="#build" className="hover:text-white">
                 Cosa realizzo
+              </a>
+               <a href="#projects" className="hover:text-white">
+                Progetti
               </a>
               <a href="#capabilities" className="hover:text-white">
                 Competenze

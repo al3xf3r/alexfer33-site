@@ -3,6 +3,7 @@
 
 import { useMemo, useState } from "react";
 import LanguageToggle from "@/components/LanguageToggle";
+import ProjectsShowcase from "@/components/ProjectsShowcase";
 
 const LINKS = {
   x: "https://x.com/al33xf",
@@ -164,6 +165,7 @@ export default function HomePage() {
                   {[
   
   ["What I build", "#build"],
+  ["Work", "#projects"],
   ["Capabilities", "#capabilities"],
   ["Process", "#process"],
   ["Principles", "#principles"],
@@ -432,6 +434,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <ProjectsShowcase locale="en"/>
+
       {/* Capabilities */}
       <section id="capabilities" className="mx-auto max-w-6xl px-4 py-12">
         <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Capabilities</h2>
@@ -627,6 +631,9 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center gap-4 text-sm text-white/60">
               <a href="#build" className="hover:text-white">
                 Build
+              </a>
+               <a href="#projects" className="hover:text-white">
+                Work
               </a>
               <a href="#capabilities" className="hover:text-white">
                 Capabilities
