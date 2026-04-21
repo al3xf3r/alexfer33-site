@@ -80,7 +80,7 @@ const PROJECTS = {
     },
     {
       title: "Elisa Nicotra",
-      url: "https://elisanicotra.vercel.app",
+      url: "https://elisanicotra.com",
       image: "/projects/elisa-nicotra.webp",
       category: "Medicale / Personal Brand",
       description:
