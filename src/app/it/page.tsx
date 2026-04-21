@@ -267,7 +267,7 @@ const langText = isItalian ? "English" : "Italiano";
                   <div
                     className="h-44 md:h-52 relative"
                     style={{
-                      backgroundImage: "url(/assets/banner.webp)",
+                      backgroundImage: "url(/assets/banner1.webp)",
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
