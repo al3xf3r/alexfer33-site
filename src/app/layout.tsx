@@ -1,26 +1,60 @@
-// src/app/layout.tsx
 import "./globals.css";
 import type { Metadata } from "next";
 
 const SITE_URL = "https://al33xf.xyz";
+const SITE_NAME = "al33xf";
+const DEFAULT_TITLE = "Web Designer in Sicilia | Siti Web, App e Soluzioni Web3 - al33xf";
+const DEFAULT_DESCRIPTION =
+  "Realizzo siti web professionali, landing page, applicazioni web, soluzioni Web3 e automazioni AI in Sicilia. Design premium, codice pulito e delivery pronta per la produzione.";
+const OG_IMAGE = "/assets/og.webp";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+
   title: {
-    default: "al33xf — Web3 & AI Full-Stack Builder",
-    template: "%s — al33xf",
+    default: DEFAULT_TITLE,
+    template: "%s | al33xf",
   },
-  description:
-    "Web3 & AI builder. Smart contracts (Solidity/EVM), tokens, AI agents, NFT platforms, dashboards, automations, and full-stack apps. Production-ready delivery.",
-  applicationName: "al33xf",
+
+  description: DEFAULT_DESCRIPTION,
+
+  applicationName: SITE_NAME,
   authors: [{ name: "al33xf", url: SITE_URL }],
   creator: "al33xf",
   publisher: "al33xf",
-  alternates: { canonical: "/" },
+
+  keywords: [
+    "web designer Sicilia",
+    "sviluppatore web Sicilia",
+    "creazione siti web Sicilia",
+    "sviluppo siti web Sicilia",
+    "sviluppatore applicazioni Sicilia",
+    "sviluppo app Sicilia",
+    "web designer Catania",
+    "sviluppatore web Catania",
+    "landing page Sicilia",
+    "sviluppo web3 Italia",
+    "smart contract developer Italia",
+    "automazioni AI Sicilia",
+    "sviluppatore Next.js Italia",
+    "designer siti web professionali",
+  ],
+
+  category: "technology",
+
+  alternates: {
+    canonical: "/",
+    languages: {
+      en: "/",
+      it: "/it",
+      "x-default": "/",
+    },
+  },
 
   robots: {
     index: true,
     follow: true,
+    nocache: false,
     googleBot: {
       index: true,
       follow: true,
@@ -30,19 +64,26 @@ export const metadata: Metadata = {
     },
   },
 
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+
   openGraph: {
     type: "website",
+    locale: "en_US",
+    alternateLocale: ["it_IT"],
     url: SITE_URL,
-    siteName: "al33xf",
-    title: "al33xf — Web3 & AI Full-Stack Builder",
-    description:
-      "Smart contracts, tokens, AI agents, NFT platforms, dashboards, automations and full-stack apps. Premium UI, clean engineering, production delivery.",
+    siteName: SITE_NAME,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
     images: [
       {
-        url: "/assets/og.webp",
+        url: OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: "al33xf — Web3 & AI Full-Stack Builder",
+        alt: "al33xf - Web Designer in Sicilia, sviluppo siti web, app e soluzioni Web3",
       },
     ],
   },
@@ -50,10 +91,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     creator: "@al33xf",
-    title: "al33xf — Web3 & AI Full-Stack Builder",
-    description:
-      "Smart contracts, tokens, AI agents, NFT platforms, dashboards, automations and full-stack apps.",
-    images: ["/assets/og.webp"],
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [OG_IMAGE],
   },
 
   icons: {
@@ -63,12 +103,17 @@ export const metadata: Metadata = {
       { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: ["/favicon.ico"],
   },
 
   manifest: "/site.webmanifest",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
       <body className="bg-black text-white antialiased">{children}</body>

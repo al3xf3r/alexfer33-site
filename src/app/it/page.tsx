@@ -123,6 +123,7 @@ const langText = isItalian ? "English" : "Italiano";
             <a href="#resources" className="hover:text-white">
               Risorse
             </a>
+            
             <a href="#contacts" className="hover:text-white">
               Contatti
             </a>
