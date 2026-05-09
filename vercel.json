@@ -6,7 +6,7 @@
     },
     {
       "path": "/api/pac/refresh-crypto",
-      "schedule": "0 */6 * * *"
+      "schedule": "0 */7 * * *"
     }
   ]
 }
