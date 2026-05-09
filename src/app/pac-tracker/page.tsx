@@ -10,7 +10,7 @@ const LINKS = {
   gh: "https://github.com/al3xf3r",
 };
 
-const TRACKER_PASSWORD = "al33xf-pac";
+const TRACKER_PASSWORD = "al33";
 
 type AssetType = "ETF" | "Crypto";
 
