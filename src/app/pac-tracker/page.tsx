@@ -88,6 +88,7 @@ export default function PacTrackerPage() {
   async function loadPortfolio() {
     try {
       await fetch("/api/pac/refresh-crypto", { cache: "no-store" });
+      await fetch("/api/pac/refresh-etf", { cache: "no-store" });
 
       const response = await fetch("/api/pac/portfolio", {
         cache: "no-store",
