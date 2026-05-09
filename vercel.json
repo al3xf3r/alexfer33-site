@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/pac/monthly-buy",
+      "schedule": "0 8 2 * *"
+    },
+    {
+      "path": "/api/pac/refresh-crypto",
+      "schedule": "0 */6 * * *"
+    }
+  ]
+}
