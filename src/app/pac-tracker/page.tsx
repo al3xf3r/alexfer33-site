@@ -413,78 +413,45 @@ export default function PacTrackerPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-8">
-        <div className="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
-          <div className="rounded-[28px] border border-white/10 bg-black/40 p-6">
-  <div className="flex items-end justify-between gap-4">
-    <div>
-      <div className="text-sm text-white/50">Real performance</div>
-      <h2 className="mt-1 text-2xl font-extrabold">
-        Invested vs current value
-      </h2>
+  <div className="rounded-[28px] border border-white/10 bg-black/40 p-6">
+    <div className="flex items-end justify-between gap-4">
+      <div>
+        <div className="text-sm text-white/50">Real performance</div>
+        <h2 className="mt-1 text-2xl font-extrabold">
+          Invested vs current value
+        </h2>
+      </div>
+
+      <div className="text-right text-sm text-white/50">
+        Based on PAC transactions
+      </div>
     </div>
-    <div className="text-right text-sm text-white/50">
-      Based on PAC transactions
+
+    <div className="mt-6 flex h-52 flex-col items-center justify-center rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-6 text-center">
+      <div className="text-lg font-bold text-white/85">
+        Waiting for more PAC cycles
+      </div>
+
+      <div className="mt-2 max-w-sm text-sm leading-relaxed text-white/45">
+        The real performance chart will become meaningful after at least two
+        monthly executions. Your next automatic PAC is scheduled for Jun 2,
+        2026.
+      </div>
+    </div>
+
+    <div className="mt-4 flex items-center gap-4 text-xs text-white/50">
+      <div className="flex items-center gap-2">
+        <span className="h-2 w-2 rounded-full bg-white/20" />
+        Invested
+      </div>
+
+      <div className="flex items-center gap-2">
+        <span className="h-2 w-2 rounded-full bg-[#ff6a00]" />
+        Current value
+      </div>
     </div>
   </div>
-
-  <div className="mt-6 flex h-52 flex-col items-center justify-center rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-6 text-center">
-    <div className="text-lg font-bold text-white/85">
-      Waiting for more PAC cycles
-    </div>
-
-    <div className="mt-2 max-w-sm text-sm leading-relaxed text-white/45">
-      The real performance chart will become meaningful after at least two monthly executions.
-      Your next automatic PAC is scheduled for Jun 2, 2026.
-    </div>
-  </div>
-
-  <div className="mt-4 flex items-center gap-4 text-xs text-white/50">
-    <div className="flex items-center gap-2">
-      <span className="h-2 w-2 rounded-full bg-white/20" />
-      Invested
-    </div>
-    <div className="flex items-center gap-2">
-      <span className="h-2 w-2 rounded-full bg-[#ff6a00]" />
-      Current value
-    </div>
-  </div>
-</div>
-
-          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
-            <div className="text-sm text-white/50">Allocation</div>
-            <h2 className="mt-1 text-2xl font-extrabold">Portfolio split</h2>
-
-            <div className="mt-6 flex justify-center">
-              <div
-                className="h-44 w-44 rounded-full border border-white/10"
-                style={{ background: allocationGradient }}
-              >
-                <div className="flex h-full w-full items-center justify-center rounded-full">
-                  <div className="flex h-24 w-24 flex-col items-center justify-center rounded-full border border-white/10 bg-black">
-                    <div className="text-xs text-white/45">Value</div>
-                    <div className="text-sm font-bold">{formatEUR(currentValue)}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 space-y-2">
-              {assets.slice(0, 5).map((asset) => (
-                <div key={asset.id} className="flex items-center justify-between gap-3 text-sm">
-                  <div className="flex min-w-0 items-center gap-2">
-                    <span
-                      className="h-2.5 w-2.5 shrink-0 rounded-full"
-                      style={{ backgroundColor: ASSET_COLORS[asset.id] || "#ffffff" }}
-                    />
-                    <span className="truncate text-white/70">{asset.symbol}</span>
-                  </div>
-                  <span className="font-semibold">{asset.value_allocation.toFixed(1)}%</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+</section>
 
       <section className="mx-auto max-w-6xl px-4 pb-8">
         <div className="grid gap-4 md:grid-cols-4">
