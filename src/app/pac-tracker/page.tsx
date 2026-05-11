@@ -415,56 +415,40 @@ export default function PacTrackerPage() {
       <section className="mx-auto max-w-6xl px-4 pb-8">
         <div className="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
           <div className="rounded-[28px] border border-white/10 bg-black/40 p-6">
-            <div className="flex items-end justify-between gap-4">
-              <div>
-                <div className="text-sm text-white/50">Real performance</div>
-                <h2 className="mt-1 text-2xl font-extrabold">
-                  Invested vs current value
-                </h2>
-              </div>
-              <div className="text-right text-sm text-white/50">
-                Based on PAC transactions
-              </div>
-            </div>
+  <div className="flex items-end justify-between gap-4">
+    <div>
+      <div className="text-sm text-white/50">Real performance</div>
+      <h2 className="mt-1 text-2xl font-extrabold">
+        Invested vs current value
+      </h2>
+    </div>
+    <div className="text-right text-sm text-white/50">
+      Based on PAC transactions
+    </div>
+  </div>
 
-            <div className="mt-6 flex h-52 items-end gap-2">
-              {portfolioChart.length > 0 ? (
-                portfolioChart.map((point) => (
-                  <div key={point.date} className="flex flex-1 items-end gap-1">
-                    <div
-                      className="w-1/2 rounded-t bg-white/20"
-                      style={{
-                        height: `${Math.max((point.invested / maxPortfolioChartValue) * 100, 2)}%`,
-                      }}
-                      title={`Invested ${formatEUR(point.invested)}`}
-                    />
-                    <div
-                      className="w-1/2 rounded-t bg-gradient-to-t from-[#ff6a00]/70 to-[#4f8fff]/90"
-                      style={{
-                        height: `${Math.max((point.value / maxPortfolioChartValue) * 100, 2)}%`,
-                      }}
-                      title={`Value ${formatEUR(point.value)}`}
-                    />
-                  </div>
-                ))
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-sm text-white/40">
-                  No transactions yet.
-                </div>
-              )}
-            </div>
+  <div className="mt-6 flex h-52 flex-col items-center justify-center rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-6 text-center">
+    <div className="text-lg font-bold text-white/85">
+      Waiting for more PAC cycles
+    </div>
 
-            <div className="mt-4 flex items-center gap-4 text-xs text-white/50">
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-white/20" />
-                Invested
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#ff6a00]" />
-                Current value
-              </div>
-            </div>
-          </div>
+    <div className="mt-2 max-w-sm text-sm leading-relaxed text-white/45">
+      The real performance chart will become meaningful after at least two monthly executions.
+      Your next automatic PAC is scheduled for Jun 2, 2026.
+    </div>
+  </div>
+
+  <div className="mt-4 flex items-center gap-4 text-xs text-white/50">
+    <div className="flex items-center gap-2">
+      <span className="h-2 w-2 rounded-full bg-white/20" />
+      Invested
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="h-2 w-2 rounded-full bg-[#ff6a00]" />
+      Current value
+    </div>
+  </div>
+</div>
 
           <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
             <div className="text-sm text-white/50">Allocation</div>
