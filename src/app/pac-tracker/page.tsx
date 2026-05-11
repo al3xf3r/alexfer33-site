@@ -517,6 +517,124 @@ export default function PacTrackerPage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 pb-8">
+  <div className="rounded-[28px] border border-white/10 bg-white/5 p-6 md:p-8">
+    <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+      <div>
+        <div className="text-sm text-white/50">Portfolio allocation</div>
+        <h2 className="mt-1 text-2xl md:text-3xl font-extrabold tracking-tight">
+          ETF vs Crypto split
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/55">
+          Allocation is calculated dynamically from the current monthly PAC configuration and live portfolio value.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 sm:min-w-[320px]">
+        <MetricCard
+          label="ETF monthly"
+          value={formatEUR(etfMonthly)}
+          sub={`${monthlyTotal > 0 ? ((etfMonthly / monthlyTotal) * 100).toFixed(1) : "0.0"}% of PAC`}
+        />
+
+        <MetricCard
+          label="Crypto monthly"
+          value={formatEUR(cryptoMonthly)}
+          sub={`${monthlyTotal > 0 ? ((cryptoMonthly / monthlyTotal) * 100).toFixed(1) : "0.0"}% of PAC`}
+        />
+      </div>
+    </div>
+
+    <div className="mt-8 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="rounded-[28px] border border-white/10 bg-black/30 p-6">
+        <div className="flex justify-center">
+          <div
+            className="relative h-52 w-52 rounded-full border border-white/10 shadow-[0_0_50px_rgba(46,108,255,0.15)]"
+            style={{ background: allocationGradient }}
+          >
+            <div className="absolute inset-8 rounded-full border border-white/10 bg-black/90 flex flex-col items-center justify-center">
+              <div className="text-xs text-white/45">Portfolio</div>
+              <div className="mt-1 text-xl font-extrabold">
+                {formatEUR(currentValue)}
+              </div>
+              <div className="mt-1 text-xs text-white/40">
+                {totalPnL >= 0 ? "+" : ""}
+                {totalPnLPercent.toFixed(2)}%
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="text-xs text-white/45">ETF plan</div>
+            <div className="mt-1 text-lg font-extrabold">
+              {monthlyTotal > 0 ? ((etfMonthly / monthlyTotal) * 100).toFixed(1) : "0.0"}%
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="text-xs text-white/45">Crypto plan</div>
+            <div className="mt-1 text-lg font-extrabold">
+              {monthlyTotal > 0 ? ((cryptoMonthly / monthlyTotal) * 100).toFixed(1) : "0.0"}%
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-[28px] border border-white/10 bg-black/30 p-6">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <div className="text-sm text-white/50">Asset weights</div>
+            <h3 className="mt-1 text-xl font-extrabold">Live allocation</h3>
+          </div>
+          <div className="text-right text-xs text-white/40">
+            Based on current value
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-4">
+          {assets.map((asset) => (
+            <div key={asset.id}>
+              <div className="mb-2 flex items-center justify-between gap-3 text-sm">
+                <div className="flex min-w-0 items-center gap-2">
+                  <span
+                    className="h-2.5 w-2.5 shrink-0 rounded-full"
+                    style={{ backgroundColor: ASSET_COLORS[asset.id] || "#ffffff" }}
+                  />
+                  <span className="truncate font-semibold">{asset.symbol}</span>
+                  <span className="hidden text-white/35 sm:inline">
+                    {asset.type}
+                  </span>
+                </div>
+
+                <div className="text-right">
+                  <div className="font-bold">
+                    {asset.value_allocation.toFixed(1)}%
+                  </div>
+                  <div className="text-xs text-white/35">
+                    {formatEUR(asset.current_value)}
+                  </div>
+                </div>
+              </div>
+
+              <div className="h-2 overflow-hidden rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{
+                    width: `${Math.min(asset.value_allocation, 100)}%`,
+                    backgroundColor: ASSET_COLORS[asset.id] || "#ffffff",
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
       <section className="mx-auto max-w-6xl px-4 pb-16">
         <div className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5">
           <div className="border-b border-white/10 p-6 md:p-8">
