@@ -27,7 +27,11 @@ type PortfolioAsset = {
   current_value: number;
   pnl: number;
   pnl_percent: number;
+  avg_buy_price: number;
+  value_allocation: number;
+  invested_allocation: number;
   transactions_count: number;
+  last_transaction_date: string | null;
 };
 
 type PortfolioSummary = {
@@ -35,6 +39,34 @@ type PortfolioSummary = {
   current_value: number;
   pnl: number;
   pnl_percent: number;
+};
+
+type PacTransaction = {
+  asset_id: string;
+  execution_date: string;
+  amount_eur: number;
+  price_eur: number;
+  quantity: number;
+};
+
+type PortfolioResponse = {
+  success: boolean;
+  summary: PortfolioSummary;
+  assets: PortfolioAsset[];
+  transactions: PacTransaction[];
+};
+
+const ASSET_COLORS: Record<string, string> = {
+  "msci-world": "#4f8fff",
+  "nasdaq-100": "#2e6cff",
+  "emerging-markets": "#22c55e",
+  "small-cap": "#a855f7",
+  semiconductor: "#ff6a00",
+  bitcoin: "#f59e0b",
+  ethereum: "#8b5cf6",
+  ondo: "#10b981",
+  morpho: "#ec4899",
+  pyth: "#14b8a6",
 };
 
 function formatEUR(value: number) {
@@ -51,6 +83,16 @@ function formatNumber(value: number, decimals = 4) {
   }).format(value);
 }
 
+function formatDate(value: string | null) {
+  if (!value) return "—";
+
+  return new Date(value).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 function getNextPacDate() {
   const now = new Date();
   const year = now.getFullYear();
@@ -60,6 +102,12 @@ function getNextPacDate() {
   if (now <= thisMonthPac) return thisMonthPac;
 
   return new Date(year, month + 1, 2);
+}
+
+function daysUntil(date: Date) {
+  const now = new Date();
+  const diff = date.getTime() - now.getTime();
+  return Math.max(Math.ceil(diff / (1000 * 60 * 60 * 24)), 0);
 }
 
 function generateProjection(monthlyAmount: number, annualReturn: number, years: number) {
@@ -78,12 +126,14 @@ export default function PacTrackerPage() {
   const [unlocked, setUnlocked] = useState(false);
   const [password, setPassword] = useState("");
   const [assets, setAssets] = useState<PortfolioAsset[]>([]);
+  const [transactions, setTransactions] = useState<PacTransaction[]>([]);
   const [summary, setSummary] = useState<PortfolioSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
 
   const year = useMemo(() => new Date().getFullYear(), []);
   const nextPacDate = useMemo(() => getNextPacDate(), []);
+  const daysToNextPac = useMemo(() => daysUntil(nextPacDate), [nextPacDate]);
 
   async function loadPortfolio() {
     try {
@@ -94,13 +144,14 @@ export default function PacTrackerPage() {
         cache: "no-store",
       });
 
-      const data = await response.json();
+      const data: PortfolioResponse = await response.json();
 
       const sortedAssets = [...(data.assets || [])].sort(
         (a, b) => Number(b.monthly_amount) - Number(a.monthly_amount)
       );
 
       setAssets(sortedAssets);
+      setTransactions(data.transactions || []);
       setSummary(data.summary);
       setLastUpdate(new Date());
     } catch (error) {
@@ -144,20 +195,63 @@ export default function PacTrackerPage() {
   const projection10yRealistic = generateProjection(monthlyTotal, 0.12, 10);
   const projection10yBullish = generateProjection(monthlyTotal, 0.18, 10);
 
-  const chartPoints = useMemo(() => {
-    const values = [];
-    let value = 0;
-    const monthlyRate = 0.12 / 12;
+  const bestPerformer = [...assets].sort((a, b) => b.pnl_percent - a.pnl_percent)[0];
+  const worstPerformer = [...assets].sort((a, b) => a.pnl_percent - b.pnl_percent)[0];
 
-    for (let month = 0; month <= 120; month++) {
-      if (month > 0) value = value * (1 + monthlyRate) + monthlyTotal;
-      values.push(value);
+  const allocationGradient = useMemo(() => {
+    if (!assets.length || currentValue <= 0) {
+      return "conic-gradient(rgba(255,255,255,0.08) 0deg 360deg)";
     }
 
-    return values;
-  }, [monthlyTotal]);
+    let start = 0;
 
-  const maxChartValue = Math.max(...chartPoints, 1);
+    const parts = assets.map((asset) => {
+      const color = ASSET_COLORS[asset.id] || "#ffffff";
+      const slice = (asset.current_value / currentValue) * 360;
+      const end = start + slice;
+      const part = `${color} ${start}deg ${end}deg`;
+      start = end;
+      return part;
+    });
+
+    return `conic-gradient(${parts.join(", ")})`;
+  }, [assets, currentValue]);
+
+  const portfolioChart = useMemo(() => {
+    const grouped = new Map<string, { invested: number; value: number }>();
+
+    for (const tx of transactions) {
+      const existing = grouped.get(tx.execution_date) || { invested: 0, value: 0 };
+      const asset = assets.find((item) => item.id === tx.asset_id);
+      const currentPrice = Number(asset?.current_price || tx.price_eur);
+
+      grouped.set(tx.execution_date, {
+        invested: existing.invested + Number(tx.amount_eur),
+        value: existing.value + Number(tx.quantity) * currentPrice,
+      });
+    }
+
+    let cumulativeInvested = 0;
+    let cumulativeValue = 0;
+
+    return Array.from(grouped.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([date, values]) => {
+        cumulativeInvested += values.invested;
+        cumulativeValue += values.value;
+
+        return {
+          date,
+          invested: cumulativeInvested,
+          value: cumulativeValue,
+        };
+      });
+  }, [transactions, assets]);
+
+  const maxPortfolioChartValue = Math.max(
+    ...portfolioChart.flatMap((point) => [point.invested, point.value]),
+    1
+  );
 
   function handleUnlock() {
     if (password === TRACKER_PASSWORD) {
@@ -319,30 +413,123 @@ export default function PacTrackerPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-8">
-        <div className="rounded-[28px] border border-white/10 bg-black/40 p-6">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <div className="text-sm text-white/50">10Y simulation</div>
-              <h2 className="mt-1 text-2xl font-extrabold">
-                Portfolio growth curve
-              </h2>
+        <div className="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
+          <div className="rounded-[28px] border border-white/10 bg-black/40 p-6">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <div className="text-sm text-white/50">Real performance</div>
+                <h2 className="mt-1 text-2xl font-extrabold">
+                  Invested vs current value
+                </h2>
+              </div>
+              <div className="text-right text-sm text-white/50">
+                Based on PAC transactions
+              </div>
             </div>
-            <div className="text-right text-sm text-white/50">
-              12% yearly assumption
+
+            <div className="mt-6 flex h-52 items-end gap-2">
+              {portfolioChart.length > 0 ? (
+                portfolioChart.map((point) => (
+                  <div key={point.date} className="flex flex-1 items-end gap-1">
+                    <div
+                      className="w-1/2 rounded-t bg-white/20"
+                      style={{
+                        height: `${Math.max((point.invested / maxPortfolioChartValue) * 100, 2)}%`,
+                      }}
+                      title={`Invested ${formatEUR(point.invested)}`}
+                    />
+                    <div
+                      className="w-1/2 rounded-t bg-gradient-to-t from-[#ff6a00]/70 to-[#4f8fff]/90"
+                      style={{
+                        height: `${Math.max((point.value / maxPortfolioChartValue) * 100, 2)}%`,
+                      }}
+                      title={`Value ${formatEUR(point.value)}`}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-sm text-white/40">
+                  No transactions yet.
+                </div>
+              )}
+            </div>
+
+            <div className="mt-4 flex items-center gap-4 text-xs text-white/50">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-white/20" />
+                Invested
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-[#ff6a00]" />
+                Current value
+              </div>
             </div>
           </div>
 
-          <div className="mt-6 flex h-48 items-end gap-1">
-            {chartPoints.filter((_, i) => i % 3 === 0).map((point, index) => (
+          <div className="rounded-[28px] border border-white/10 bg-white/5 p-6">
+            <div className="text-sm text-white/50">Allocation</div>
+            <h2 className="mt-1 text-2xl font-extrabold">Portfolio split</h2>
+
+            <div className="mt-6 flex justify-center">
               <div
-                key={index}
-                className="flex-1 rounded-t bg-gradient-to-t from-[#ff6a00]/70 to-[#4f8fff]/80"
-                style={{
-                  height: `${Math.max((point / maxChartValue) * 100, 2)}%`,
-                }}
-              />
-            ))}
+                className="h-44 w-44 rounded-full border border-white/10"
+                style={{ background: allocationGradient }}
+              >
+                <div className="flex h-full w-full items-center justify-center rounded-full">
+                  <div className="flex h-24 w-24 flex-col items-center justify-center rounded-full border border-white/10 bg-black">
+                    <div className="text-xs text-white/45">Value</div>
+                    <div className="text-sm font-bold">{formatEUR(currentValue)}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-2">
+              {assets.slice(0, 5).map((asset) => (
+                <div key={asset.id} className="flex items-center justify-between gap-3 text-sm">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <span
+                      className="h-2.5 w-2.5 shrink-0 rounded-full"
+                      style={{ backgroundColor: ASSET_COLORS[asset.id] || "#ffffff" }}
+                    />
+                    <span className="truncate text-white/70">{asset.symbol}</span>
+                  </div>
+                  <span className="font-semibold">{asset.value_allocation.toFixed(1)}%</span>
+                </div>
+              ))}
+            </div>
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pb-8">
+        <div className="grid gap-4 md:grid-cols-4">
+          <InsightCard
+            label="Best performer"
+            value={bestPerformer ? bestPerformer.symbol : "—"}
+            sub={bestPerformer ? `${bestPerformer.pnl_percent.toFixed(2)}%` : "No data"}
+            positive
+          />
+          <InsightCard
+            label="Worst performer"
+            value={worstPerformer ? worstPerformer.symbol : "—"}
+            sub={worstPerformer ? `${worstPerformer.pnl_percent.toFixed(2)}%` : "No data"}
+            positive={worstPerformer ? worstPerformer.pnl >= 0 : undefined}
+          />
+          <InsightCard
+            label="Next buy"
+            value={`${daysToNextPac} days`}
+            sub={nextPacDate.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          />
+          <InsightCard
+            label="Transactions"
+            value={String(transactions.length)}
+            sub="total PAC entries"
+          />
         </div>
       </section>
 
@@ -354,19 +541,18 @@ export default function PacTrackerPage() {
               Portfolio details
             </h2>
             <p className="mt-2 text-sm text-white/50">
-              Quantities, invested capital and P/L are calculated from real
-              PAC transactions.
+              Quantities, average buy price, invested capital and P/L are calculated from real PAC transactions.
             </p>
           </div>
 
           <div className="grid gap-3 p-4 md:hidden">
             {assets.map((asset) => (
-              <MobileAssetCard key={asset.id} asset={asset} monthlyTotal={monthlyTotal} />
+              <MobileAssetCard key={asset.id} asset={asset} />
             ))}
           </div>
 
           <div className="hidden overflow-x-auto md:block">
-            <table className="w-full min-w-[950px] text-sm">
+            <table className="w-full min-w-[1100px] text-sm">
               <thead className="bg-black/30 text-white/50">
                 <tr>
                   <th className="px-6 py-4 text-left font-medium">Asset</th>
@@ -374,8 +560,10 @@ export default function PacTrackerPage() {
                   <th className="px-6 py-4 text-right font-medium">Monthly</th>
                   <th className="px-6 py-4 text-right font-medium">Invested</th>
                   <th className="px-6 py-4 text-right font-medium">Value</th>
+                  <th className="px-6 py-4 text-right font-medium">Avg buy</th>
                   <th className="px-6 py-4 text-right font-medium">Price</th>
                   <th className="px-6 py-4 text-right font-medium">Quantity</th>
+                  <th className="px-6 py-4 text-right font-medium">Weight</th>
                   <th className="px-6 py-4 text-right font-medium">P/L</th>
                 </tr>
               </thead>
@@ -402,10 +590,16 @@ export default function PacTrackerPage() {
                       {formatEUR(asset.current_value)}
                     </td>
                     <td className="px-6 py-4 text-right text-white/70">
+                      {formatEUR(asset.avg_buy_price)}
+                    </td>
+                    <td className="px-6 py-4 text-right text-white/70">
                       {formatEUR(asset.current_price)}
                     </td>
                     <td className="px-6 py-4 text-right text-white/70">
                       {formatNumber(asset.total_quantity, asset.type === "Crypto" ? 8 : 5)}
+                    </td>
+                    <td className="px-6 py-4 text-right font-semibold">
+                      {asset.value_allocation.toFixed(1)}%
                     </td>
                     <td className="px-6 py-4 text-right font-semibold">
                       <span className={asset.pnl >= 0 ? "text-emerald-400" : "text-red-400"}>
@@ -417,6 +611,43 @@ export default function PacTrackerPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pb-16">
+        <div className="rounded-[28px] border border-white/10 bg-black/40 p-6">
+          <div className="text-sm text-white/50">PAC calendar</div>
+          <h2 className="mt-1 text-2xl font-extrabold">Execution timeline</h2>
+
+          <div className="mt-6 space-y-3">
+            {transactions
+              .slice()
+              .sort((a, b) => b.execution_date.localeCompare(a.execution_date))
+              .slice(0, 8)
+              .map((tx, index) => {
+                const asset = assets.find((item) => item.id === tx.asset_id);
+
+                return (
+                  <div
+                    key={`${tx.asset_id}-${tx.execution_date}-${index}`}
+                    className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 p-4"
+                  >
+                    <div>
+                      <div className="font-semibold">{asset?.symbol || tx.asset_id}</div>
+                      <div className="mt-1 text-xs text-white/45">
+                        {formatDate(tx.execution_date)} • {formatNumber(Number(tx.quantity), asset?.type === "Crypto" ? 8 : 5)} units
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-bold">{formatEUR(Number(tx.amount_eur))}</div>
+                      <div className="mt-1 text-xs text-white/45">
+                        @ {formatEUR(Number(tx.price_eur))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </section>
@@ -482,16 +713,33 @@ function ProjectionCard({
   );
 }
 
-function MobileAssetCard({
-  asset,
-  monthlyTotal,
+function InsightCard({
+  label,
+  value,
+  sub,
+  positive,
 }: {
-  asset: PortfolioAsset;
-  monthlyTotal: number;
+  label: string;
+  value: string;
+  sub: string;
+  positive?: boolean;
 }) {
-  const weight =
-    monthlyTotal > 0 ? (Number(asset.monthly_amount) / monthlyTotal) * 100 : 0;
+  return (
+    <div className="rounded-[28px] border border-white/10 bg-white/5 p-5">
+      <div className="text-xs text-white/50">{label}</div>
+      <div
+        className={`mt-2 text-xl font-extrabold ${
+          positive === undefined ? "text-white" : positive ? "text-emerald-400" : "text-red-400"
+        }`}
+      >
+        {value}
+      </div>
+      <div className="mt-1 text-xs text-white/40">{sub}</div>
+    </div>
+  );
+}
 
+function MobileAssetCard({ asset }: { asset: PortfolioAsset }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
       <div className="flex items-start justify-between gap-4">
@@ -503,7 +751,7 @@ function MobileAssetCard({
         </div>
 
         <div className="text-right">
-          <div className="font-extrabold">{weight.toFixed(1)}%</div>
+          <div className="font-extrabold">{asset.value_allocation.toFixed(1)}%</div>
           <div className="text-xs text-white/45">weight</div>
         </div>
       </div>
@@ -512,8 +760,10 @@ function MobileAssetCard({
         <MiniData label="Monthly" value={formatEUR(asset.monthly_amount)} />
         <MiniData label="Invested" value={formatEUR(asset.total_invested)} />
         <MiniData label="Value" value={formatEUR(asset.current_value)} />
+        <MiniData label="Avg buy" value={formatEUR(asset.avg_buy_price)} />
         <MiniData label="Price" value={formatEUR(asset.current_price)} />
         <MiniData label="Quantity" value={formatNumber(asset.total_quantity, asset.type === "Crypto" ? 8 : 5)} />
+        <MiniData label="Last buy" value={formatDate(asset.last_transaction_date)} />
         <MiniData
           label="P/L"
           value={`${asset.pnl >= 0 ? "+" : ""}${formatEUR(asset.pnl)}`}
