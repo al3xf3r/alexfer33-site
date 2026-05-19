@@ -303,11 +303,11 @@ export default function RoyalServiceHubProposalPage() {
             </div>
 
             <div className="space-y-4">
-              <PriceBox label="Prezzo standard" price="€ 7.500" />
+              <PriceBox label="Prezzo standard" price="€ 10.000" />
 
               <PriceBox
                 label="Prezzo riservato"
-                price="€ 5.000"
+                price="€ 7.500"
                 highlight
               />
 
@@ -328,11 +328,11 @@ export default function RoyalServiceHubProposalPage() {
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <PriceBox label="Totale standard" price="€ 9.000" />
+            <PriceBox label="Totale standard" price="€ 11.500" />
 
             <PriceBox
               label="Totale riservato"
-              price="€ 6.000"
+              price="€ 7.500"
               highlight
             />
           </div>
