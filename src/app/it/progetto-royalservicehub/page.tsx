@@ -272,6 +272,15 @@ export default function RoyalServiceHubProposalPage() {
         </Card>
       </section>
 
+
+
+
+
+
+
+
+
+
       <section className="mx-auto max-w-6xl px-4 pb-10">
         <Card className="p-6 md:p-8">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr]">
@@ -339,50 +348,84 @@ export default function RoyalServiceHubProposalPage() {
         </Card>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 pb-10">
-        <Card className="p-6 md:p-8">
-          <div className="text-sm uppercase tracking-[0.22em] text-white/35">
-            Manutenzione e supporto
-          </div>
 
-          <h2 className="mt-2 text-3xl font-black tracking-tight text-[#e7e4dc] md:text-5xl">
-            Supporto tecnico continuativo.
-          </h2>
 
-          <p className="mt-5 max-w-4xl text-white/68 leading-relaxed">
-            Per garantire stabilità, aggiornamenti e continuità operativa del
-            sistema sarà previsto un servizio di manutenzione tecnica
-            continuativa.
-          </p>
 
-          <div className="mt-8 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              "Monitoraggio piattaforma",
-              "Aggiornamenti tecnici",
-              "Backup e controllo servizi",
-              "Supporto operativo",
-              "Bug fixing",
-              "Ottimizzazioni minori",
-              "Assistenza tecnica base",
-            ].map((item) => (
-              <div
-                key={item}
-                className="rounded-2xl border border-[#d8c38a]/12 bg-white/[0.035] px-4 py-4 text-white/72"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
 
-          <div className="mt-8">
-            <PriceBox
-              label="Canone manutenzione"
-              price="€ 100 / mese"
-              highlight
-            />
-          </div>
-        </Card>
-      </section>
+
+
+
+
+<section className="mx-auto max-w-6xl px-4 pb-10">
+  <Card className="p-6 md:p-8">
+    <div className="text-sm uppercase tracking-[0.22em] text-white/35">
+      Manutenzione e supporto
+    </div>
+
+    <h2 className="mt-2 text-3xl font-black tracking-tight text-[#e7e4dc] md:text-5xl">
+      Supporto tecnico continuativo.
+    </h2>
+
+    <p className="mt-5 max-w-4xl text-white/68 leading-relaxed">
+      Per garantire stabilità, aggiornamenti e continuità operativa del
+      sistema sarà previsto un servizio di manutenzione tecnica continuativa.
+    </p>
+
+    <div className="mt-8 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+      {[
+        "Monitoraggio piattaforma",
+        "Aggiornamenti tecnici",
+        "Backup e controllo servizi",
+        "Supporto operativo",
+        "Bug fixing",
+        "Ottimizzazioni minori",
+        "Assistenza tecnica base",
+      ].map((item) => (
+        <div
+          key={item}
+          className="rounded-2xl border border-[#d8c38a]/12 bg-white/[0.035] px-4 py-4 text-white/72"
+        >
+          {item}
+        </div>
+      ))}
+    </div>
+
+    <div className="mt-8 grid gap-4 md:grid-cols-2">
+      <PriceBox
+        label="Canone manutenzione"
+        price="€ 100 / mese"
+        highlight
+      />
+
+      <div className="rounded-[24px] border border-[#d8c38a]/20 bg-[#d8c38a]/10 p-5">
+        <div className="text-xs uppercase tracking-[0.22em] text-white/35">
+          Condizione riservata
+        </div>
+
+        <div className="mt-2 text-3xl md:text-4xl font-black tracking-tight bg-gradient-to-r from-[#f6e7b1] via-[#d8b76a] to-[#8f7337] bg-clip-text text-transparent">
+          Primo anno offerto
+        </div>
+
+        <p className="mt-4 text-sm leading-relaxed text-white/68">
+          Per il primo anno, il canone di manutenzione tecnica di € 100/mese
+          viene incluso nel progetto e non verrà fatturato separatamente.
+        </p>
+      </div>
+    </div>
+  </Card>
+</section>
+
+  
+
+
+
+
+
+
+
+
+
+
 
       <section className="mx-auto max-w-6xl px-4 pb-10">
         <Card className="p-6 md:p-8">
