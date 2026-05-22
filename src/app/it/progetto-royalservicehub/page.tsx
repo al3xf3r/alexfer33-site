@@ -408,7 +408,7 @@ export default function RoyalServiceHubProposalPage() {
 
         <p className="mt-4 text-sm leading-relaxed text-white/68">
           Per il primo anno, il canone di manutenzione tecnica di € 100/mese
-          viene incluso nel progetto e non verrà fatturato separatamente.
+          viene incluso nel progetto.
         </p>
       </div>
     </div>
