@@ -1,5 +1,5 @@
-import PersonalHome from "@/components/PersonalHome";
+import PersonalHome from "@/components/PersonalHome-v2";
 
-export default function HomePageIt() {
+export default function ItPage() {
   return <PersonalHome locale="it" />;
 }

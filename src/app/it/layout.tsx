@@ -1,55 +1,35 @@
 import type { Metadata } from "next";
 
-const SITE_URL = "https://al33xf.xyz";
-const OG_IMAGE = "/assets/og.webp";
-
 export const metadata: Metadata = {
-  title: {
-    default: "Web Designer in Sicilia | Siti Web, App e Soluzioni Web3 - al33xf",
-    template: "%s | al33xf",
-  },
+  title: "al33xf — Sviluppatore Software | CRM, AI & Web3 | Sicilia",
   description:
-    "Realizzo siti web professionali, landing page, applicazioni web, soluzioni Web3 e automazioni AI in Sicilia. Design premium, codice pulito e delivery pronta per la produzione.",
+    "Sviluppatore software indipendente che realizza CRM, dashboard operative, automazioni AI, siti web premium e infrastrutture Web3. Basato in Sicilia, lavoro in tutta Italia e a livello globale.",
+  keywords: [
+    "web designer Sicilia",
+    "sviluppatore web Sicilia",
+    "CRM Sicilia",
+    "gestionali Sicilia",
+    "siti web Sicilia",
+    "AI automation Sicilia",
+    "dashboard operative",
+    "software house Sicilia",
+    "smart contract",
+    "Hash42 Labs",
+    "al33xf",
+  ],
   alternates: {
-    canonical: "/it",
-    languages: {
-      en: "/",
-      it: "/it",
-      "x-default": "/",
-    },
+    canonical: "https://al33xf.xyz/it",
+    languages: { en: "https://al33xf.xyz" },
   },
   openGraph: {
-    type: "website",
-    url: `${SITE_URL}/it`,
+    title: "al33xf — Sviluppatore Software, AI & Web3",
+    description:
+      "CRM, dashboard operative, automazioni AI e infrastrutture Web3 per aziende moderne.",
+    url: "https://al33xf.xyz/it",
     locale: "it_IT",
-    alternateLocale: ["en_US"],
-    siteName: "al33xf",
-    title: "Web Designer in Sicilia | Siti Web, App e Soluzioni Web3 - al33xf",
-    description:
-      "Realizzo siti web professionali, landing page, applicazioni web, soluzioni Web3 e automazioni AI in Sicilia.",
-    images: [
-      {
-        url: OG_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: "al33xf - Web Designer in Sicilia",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    creator: "@al33xf",
-    title: "Web Designer in Sicilia | Siti Web, App e Soluzioni Web3 - al33xf",
-    description:
-      "Realizzo siti web professionali, landing page, applicazioni web, soluzioni Web3 e automazioni AI in Sicilia.",
-    images: [OG_IMAGE],
   },
 };
 
-export default function ItalianLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <>{children}</>;
+export default function ItLayout({ children }: { children: React.ReactNode }) {
+  return children;
 }
