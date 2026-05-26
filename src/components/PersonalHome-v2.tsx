@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
+import ProjectsShowcase from "@/components/ProjectsShowcase";
 
 type Locale = "en" | "it";
 
@@ -218,40 +219,18 @@ const COPY = {
   },
 } as const;
 
-const PROJECTS = {
-  en: [
-    { title: "Il Polimedico", url: "https://ilpolimedico.com", image: "/projects/ilpolimedico.webp", category: "Wellness / Distribution", desc: "A structured wellness website built around product selection, reseller support and a clear commercial journey." },
-    { title: "Elisa Nicotra", url: "https://elisanicotra.vercel.app", image: "/projects/elisa-nicotra.webp", category: "Medical / Personal Brand", desc: "A trust-first medical website designed to present treatments, authority, reviews and patient conversion." },
-    { title: "Sosteniamo Musica", url: "https://sosteniamomusica.com", image: "/projects/sosteniamo-musica.webp", category: "Editorial / Media", desc: "A music-focused editorial platform built around news, interviews, polls and community content." },
-    { title: "Pro Service", url: "https://proservice33.netlify.app/", image: "/projects/pro-service.webp", category: "Local Business / Bilingual", desc: "A bilingual lead-generation website for cleaning, gardening and pest control." },
-    { title: "Victoria Paci", url: "https://victoriapaci.com", image: "/projects/victoria-paci.webp", category: "Healthcare / Specialist", desc: "A professional healthcare website focused on pelvic physiotherapy, credibility and local conversion." },
-  ],
-  it: [
-    { title: "Il Polimedico", url: "https://ilpolimedico.com", image: "/projects/ilpolimedico.webp", category: "Benessere / Distribuzione", desc: "Un sito strutturato per il benessere naturale, con focus su selezione prodotti, supporto rivenditori e percorso commerciale chiaro." },
-    { title: "Elisa Nicotra", url: "https://elisanicotra.com", image: "/projects/elisa-nicotra.webp", category: "Medicale / Personal Brand", desc: "Un sito medico orientato alla fiducia, costruito per valorizzare trattamenti, autorevolezza e conversione paziente." },
-    { title: "Sosteniamo Musica", url: "https://sosteniamomusica.com", image: "/projects/sosteniamo-musica.webp", category: "Editoriale / Media", desc: "Una piattaforma editoriale dedicata alla musica, costruita per news, interviste, sondaggi e community." },
-    { title: "Pro Service", url: "https://proservice33.netlify.app/", image: "/projects/pro-service.webp", category: "Business locale / Bilingue", desc: "Un sito bilingue per pulizia, giardinaggio e pest control, progettato per chiarezza e lead generation." },
-    { title: "Victoria Paci", url: "https://victoriapaci.com", image: "/projects/victoria-paci.webp", category: "Healthcare / Specialista", desc: "Un sito professionale per fisioterapia del pavimento pelvico, competenza e conversione locale." },
-  ],
-} as const;
+
 
 /* ─────────────────────────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────────────────────────── */
 export default function PersonalHome({ locale }: { locale: Locale }) {
   const c = COPY[locale];
-  const projects = PROJECTS[locale];
-  const trackRef = useRef<HTMLDivElement>(null);
+  
+  
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const scroll = (dir: "left" | "right") => {
-    const el = trackRef.current;
-    if (!el) return;
-    const card = el.querySelector("[data-card]") as HTMLElement | null;
-    const gap = 12;
-    const amount = card ? card.offsetWidth + gap : 380;
-    el.scrollBy({ left: dir === "right" ? amount : -amount, behavior: "smooth" });
-  };
+ 
 
   return (
     <main style={{ background: C.bg, color: "#fff", fontFamily: "'Inter', system-ui, sans-serif", overflowX: "hidden", WebkitFontSmoothing: "antialiased" }}>
@@ -475,102 +454,13 @@ export default function PersonalHome({ locale }: { locale: Locale }) {
       <hr style={{ border: "none", borderTop: `1px solid ${C.brd}`, margin: 0 }} />
 
       {/* ── WORK / PROJECTS ──────────────────────────────────────── */}
-      <section id="work" style={{ padding: "72px 16px" }}>
-        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+<section id="work" style={{ padding: "72px 16px" }}>
+  <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+    <ProjectsShowcase locale={locale} />
+  </div>
+</section>
 
-          {/* Header row */}
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: 32 }}>
-            <div>
-              <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: C.t3, letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 8 }}>{c.workEyebrow}</p>
-              <h2 style={{ fontWeight: 800, fontSize: "clamp(24px, 4vw, 42px)", letterSpacing: "-1px", lineHeight: 1.0, margin: 0, fontFamily: "'Inter', system-ui, sans-serif" }}>{c.workTitle}</h2>
-              <p style={{ fontSize: 14, color: C.t2, marginTop: 8, maxWidth: 440, lineHeight: 1.6, fontFamily: "'Inter', system-ui, sans-serif" }}>{c.workSub}</p>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <button onClick={() => scroll("left")} style={{ width: 40, height: 40, borderRadius: 9, border: `1px solid ${C.brd}`, background: C.bg1, color: "#fff", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}>←</button>
-              <button onClick={() => scroll("right")} style={{ width: 40, height: 40, borderRadius: 9, border: `1px solid ${C.brd}`, background: C.bg1, color: "#fff", cursor: "pointer", fontSize: 15, display: "flex", alignItems: "center", justifyContent: "center" }}>→</button>
-            </div>
-          </div>
-
-          {/* Carousel track */}
-          <div
-            ref={trackRef}
-            className="carousel-track"
-            style={{
-              display: "flex",
-              gap: 12,
-              overflowX: "auto",
-              scrollSnapType: "x mandatory",
-              paddingBottom: 4,
-            }}
-          >
-            {projects.map((p) => (
-              <a
-                key={p.title}
-                data-card
-                href={p.url}
-                target="_blank"
-                rel="noreferrer"
-                className="project-card"
-                style={{
-                  // Width: 3 cards visible on desktop, 1 on mobile
-                  minWidth: "clamp(280px, 30vw, 380px)",
-                  flex: "0 0 auto",
-                  scrollSnapAlign: "start",
-                  textDecoration: "none",
-                  display: "block",
-                  border: `1px solid ${C.brd}`,
-                  borderRadius: 14,
-                  overflow: "hidden",
-                  background: C.bg1,
-                  transition: "border-color 0.2s",
-                }}
-              >
-                {/* Image — fixed aspect ratio, no overflow */}
-                <div style={{ position: "relative", width: "100%", paddingBottom: "60%", overflow: "hidden" }}>
-                  <img
-                    src={p.image}
-                    alt={p.title}
-                    className="project-img"
-                    loading="lazy"
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "top center",
-                      display: "block",
-                      transition: "transform 0.4s ease",
-                    }}
-                  />
-                  {/* Category badge */}
-                  <div style={{ position: "absolute", top: 10, left: 10, zIndex: 2 }}>
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 20, background: "rgba(0,0,0,0.65)", border: `1px solid ${C.brd}`, fontSize: 10, color: "rgba(255,255,255,0.75)", backdropFilter: "blur(8px)", fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.04em" }}>
-                      <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#f97316", flexShrink: 0 }} />
-                      {p.category}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Info */}
-                <div style={{ padding: "14px 16px 16px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 8 }}>
-                    <div style={{ minWidth: 0 }}>
-                      <div style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-0.3px", lineHeight: 1.2, fontFamily: "'Inter', system-ui, sans-serif", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.title}</div>
-                      <div style={{ fontSize: 11, color: C.t3, fontFamily: "'JetBrains Mono', monospace", marginTop: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.url.replace(/^https?:\/\//, "")}</div>
-                    </div>
-                    <div style={{ flexShrink: 0, width: 32, height: 32, borderRadius: 7, border: `1px solid ${C.brd}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, color: C.t2 }}>↗</div>
-                  </div>
-                  <p style={{ fontSize: 12.5, color: C.t2, lineHeight: 1.6, margin: "0 0 10px", fontFamily: "'Inter', system-ui, sans-serif" }}>{p.desc}</p>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: "#f97316", fontFamily: "'Inter', system-ui, sans-serif" }}>{c.workVisit} →</div>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <hr style={{ border: "none", borderTop: `1px solid ${C.brd}`, margin: 0 }} />
+<hr style={{ border: "none", borderTop: `1px solid ${C.brd}`, margin: 0 }} />
 
       {/* ── PROCESS ──────────────────────────────────────────────── */}
       <section id="process" style={{ padding: "72px 16px" }}>
